@@ -27,10 +27,10 @@ class Data(Dataset):
         fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(26, 12))
         ax[0].axis('off'); ax[1].axis('off')
         ax[0].set_title('Data', fontsize=24); ax[1].set_title('Samples', fontsize=24)
-        ax[0].hist2d(self.data[...,0].numpy(), self.data[...,1].numpy(), bins=32, range=[[-4, 4], [-4, 4]])
+        ax[0].hist2d(self.data[...,0].numpy(), self.data[...,1].numpy(), bins=256, range=[[-4, 4], [-4, 4]])
         if s is not None:
             s = s.detach().cpu().numpy()
-            ax[1].hist2d(s[...,0], s[...,1], bins=32, range=[[-4, 4], [-4, 4]])
+            ax[1].hist2d(s[...,0], s[...,1], bins=256, range=[[-4, 4], [-4, 4]])
         return plt.show()
     
     def plot_scatter(self):

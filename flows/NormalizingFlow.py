@@ -23,8 +23,9 @@ class Flow(nn.Module):
     
     def flow_outputs(self, x):
         log_det = torch.zeros(x.shape[0], device=self.device)
+        z = x
         for bijection in self.flow:
-            z, ldj = bijection(x)
+            z, ldj = bijection(z)
             log_det += ldj
             
         return z, log_det
