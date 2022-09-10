@@ -3,6 +3,7 @@
 from flows import realnvp, planar
 from flows.realnvp import CouplingBijection, ReverseBijection
 from flows.planar import Planar
+from flows.cnf import CNF
 from nets import MLP
 from flows.NormalizingFlow import Flow
 
@@ -18,8 +19,10 @@ class build_flow():
             self.build_realNVP()
         elif self.name == 'planar':
             self.build_Planar()   
+        elif self.name == 'continuous':
+            self.build_continuous()
         
-        self.flow = Flow(self.bijections, self.device)    
+        self.flow = Flow(self.bijections, self.name,  self.device)    
         
 
     def build_realNVP(self):
@@ -36,6 +39,9 @@ class build_flow():
         # flows for planar
         for i in range(self.dim):
             self.bijections += [Planar(self.net)]
+            
+    def build_continuous(self):
+        self.bijections = [CNF(self.net)]
         
     def print_flow(self):
         return print(self.flow)

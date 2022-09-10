@@ -31,7 +31,8 @@ class Data(Dataset):
         if s is not None:
             s = s.detach().cpu().numpy()
             ax[1].hist2d(s[...,0], s[...,1], bins=256, range=[[-4, 4], [-4, 4]])
-        return plt.show()
+#         plt.show() 
+        return  fig
     
     def plot_scatter(self):
         return plt.scatter(self.data[:,0], self.data[:,1])

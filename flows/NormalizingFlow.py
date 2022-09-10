@@ -22,11 +22,20 @@ class Flow(nn.Module):
         )
     
     def flow_outputs(self, x):
-        log_det = torch.zeros(x.shape[0], device=self.device)
+        
+        if ((self.name == 'realnvp') | (self.name == 'planar')):
+            log_det = torch.zeros(x.shape[0], device=self.device)
+        elif self.name == 'continuous':
+            log_det = torch.zeros(x[1].shape[0], device=self.device)
+            
         z = x
+        
         for bijection in self.flow:
             z, ldj = bijection(z)
-            log_det += ldj
+            if ((self.name == 'realnvp') | (self.name == 'planar')):
+                log_det += ldj
+            elif self.name == 'continuous':
+                log_det = ldj
             
         return z, log_det
 

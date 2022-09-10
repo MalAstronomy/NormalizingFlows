@@ -13,6 +13,7 @@ class Planar(nn.Module):
         self.net = net
         
     def g(self,z):
+        
         # g = f^-1
         x = self.net(z)
             
@@ -24,10 +25,15 @@ class Planar(nn.Module):
             elif name == 'b' : 
                 self.b = param
         
-        affine = torch.mm(z, self.w) + self.b
-        psi = (1 - nn.Tanh()(affine) ** 2) * self.w.T
-        abs_det = (1 + torch.mm(psi, self.u)).abs()
-        log_det = torch.log(1e-4 + abs_det).squeeze(1)
+#         affine = torch.mm(z, self.w) + self.b
+#         psi = (1 - nn.Tanh()(affine) ** 2) * self.w.T
+#         abs_det = (1 + torch.mm(psi, self.u)).abs()
+#         log_det = torch.log(1e-4 + abs_det).squeeze(1)
+        
+        affine = torch.mm(z, self.w.T) + self.b          # 2*1
+        psi = (1 - nn.Tanh()(affine) ** 2) * self.w      # 2*2
+        abs_det = (1 + torch.mm(self.u, psi.T)).abs()    # 1*2
+        log_det = torch.log(1e-4 + abs_det).squeeze(0)   # 2
         
         return x, log_det
     
