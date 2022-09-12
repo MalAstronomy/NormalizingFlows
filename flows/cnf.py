@@ -51,8 +51,8 @@ class CNF(nn.Module):
         zt, logp_t = odeint(self.ode_rhs, (z0, logp_diff_t0), ts, method=method)
         return zt, logp_t 
     
-#     def inverse(self, ip):
-#         return self.forward(ip)[0]
+    def inverse(self, ip):
+        return self.forward(ip)[0]
     
     
     

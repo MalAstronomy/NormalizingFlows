@@ -41,7 +41,8 @@ class build_flow():
             self.bijections += [Planar(self.net)]
             
     def build_continuous(self):
-        self.bijections = [CNF(self.net)]
+        for i in range(self.dim):
+            self.bijections += [CNF(self.net)]
         
     def print_flow(self):
         return print(self.flow)

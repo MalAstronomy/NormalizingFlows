@@ -23,11 +23,12 @@ class Data(Dataset):
         self.data = torch.Tensor(pd.read_csv(datapath / self.d).values)
         return self.data
     
-    def plot_samples(self, s):
+    def plot_samples(self, d, s, dtitle, stitle):
+        d = d.detach().cpu().numpy()
         fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(26, 12))
         ax[0].axis('off'); ax[1].axis('off')
-        ax[0].set_title('Data', fontsize=24); ax[1].set_title('Samples', fontsize=24)
-        ax[0].hist2d(self.data[...,0].numpy(), self.data[...,1].numpy(), bins=256, range=[[-4, 4], [-4, 4]])
+        ax[0].set_title(dtitle, fontsize=24); ax[1].set_title(stitle, fontsize=24)
+        ax[0].hist2d(d[...,0], d[...,1], bins=256, range=[[-4, 4], [-4, 4]])
         if s is not None:
             s = s.detach().cpu().numpy()
             ax[1].hist2d(s[...,0], s[...,1], bins=256, range=[[-4, 4], [-4, 4]])
